@@ -8,6 +8,6 @@ import (
 
 func main() {
 	beego.BConfig.Listen.Graceful = true
-	beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
+	// beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	beego.Run()
 }

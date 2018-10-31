@@ -8,7 +8,13 @@ type (
 
 	// RespData All Response
 	RespData struct {
-		RespBody interface{} `json:"rsBody"`
-		Error    error       `json:"error"`
+		ResponseBody interface{}       `json:"rsBody"`
+		Error        []FilterErrorCode `json:"error"`
+	}
+
+	// FilterErrorCode ...
+	FilterErrorCode struct {
+		Code    string `json:"errorCode"`
+		Message string `json:"errorDesc"`
 	}
 )

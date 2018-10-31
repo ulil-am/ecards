@@ -1,5 +1,11 @@
 package http
 
+import (
+	"ecards/structs"
+
+	"github.com/jannes-sa/customvalidator"
+)
+
 type (
 	//ReqCreateECards Struct for insert new card request
 	ReqCreateECards struct {
@@ -30,3 +36,13 @@ type (
 		CardNumber int `json:"card_number"`
 	}
 )
+
+func (cec *CreateECardsInteface) ValidateRequest(
+	reqStruct *ReqCreateECards,
+	errCode *[]structs.TypeError,
+) {
+	var paramsInterChange interface{} = *cec
+	codeError := customvalidator.Validate(
+		paramsInterChange, reqStruct)
+	structs.GetCodeError(codeError, errCode)
+}
