@@ -14,13 +14,15 @@ func init() {
 func Router() {
 	// beego.ErrorHandler("404", pageNotFound)
 	ns := beego.NewNamespace("/ecards/v1",
-		beego.NSNamespace("/cards",
-			beego.NSInclude(
-				&ctrl.EcardsController{},
-			),
-		),
+		// beego.NSNamespace("/ecards",
+		// 	beego.NSInclude(
+		// 		&ctrl.EcardsController{},
+		// 	),
+		// ),
+		beego.NSRouter("/ecards",
+			&ctrl.EcardsController{},
+			"post:Post"),
 	)
 
 	beego.AddNamespace(ns)
-
 }

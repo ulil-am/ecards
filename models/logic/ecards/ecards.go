@@ -1,28 +1,32 @@
 package ecards
 
 import (
+	"ecards/helper"
+	"ecards/structs"
 	structAPI "ecards/structs/api/http"
 	structDb "ecards/structs/db"
-
-	"github.com/astaxie/beego"
 )
 
 //InsertECards ...
 func InsertECards(
 	reqCreateEcards structAPI.ReqCreateECards,
-	err *error,
+	errCode *[]structs.TypeError,
 ) {
-	var doc structDb.ECards
+	var (
+		doc    structDb.ECards
+		nmFunc = "Insert new cards"
+	)
 
 	doc.CardNumber = reqCreateEcards.CardNumber
 	doc.Company = reqCreateEcards.Company
 	doc.ExpiryDate = reqCreateEcards.ExpiryDate
 	doc.Name = reqCreateEcards.Name
 
-	*err = DBEcards.InsertECards(&doc)
+	err := DBEcards.InsertECards(&doc)
 
 	if err != nil {
-		beego.Warning("Error insert data ecards", *err)
+		structs.ErrorCode.DatabaseError.String(errCode, err.Error(), nmFunc)
+		helper.CheckErr(nmFunc+" ", err)
 	}
 
 	return
