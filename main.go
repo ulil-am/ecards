@@ -15,7 +15,8 @@ import (
 )
 
 func main() {
-	// setup()
+	setup()
+
 	if constant.GOENV != "" && constant.GOAPP == beego.BConfig.AppName {
 		time.AfterFunc(1*time.Second, initialData)
 

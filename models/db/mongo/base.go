@@ -1,6 +1,9 @@
 package mongo
 
 import (
+	"ecards/helper"
+	"ecards/helper/constant"
+
 	"github.com/astaxie/beego"
 	"github.com/globalsign/mgo"
 )
@@ -16,6 +19,19 @@ func Connect() (sess *mgo.Session, err error) {
 	mgo.SetDebug(true)
 
 	sess.SetMode(mgo.Monotonic, true)
+
+	return
+}
+
+// GetColl - Get Collection
+func GetColl(collName string) (sess *mgo.Session, coll *mgo.Collection, err error) {
+	sess, err = Connect()
+	if err != nil {
+		helper.CheckErr("Failed get collection "+collName, err)
+		return
+	}
+
+	coll = sess.DB(constant.GOAPP).C(collName)
 
 	return
 }

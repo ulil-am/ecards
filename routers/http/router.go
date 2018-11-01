@@ -1,4 +1,4 @@
-package routers
+package http
 
 import (
 	ctrl "ecards/controllers/http"
@@ -11,17 +11,18 @@ func init() {
 	Router()
 }
 
+// Router - Routing
 func Router() {
-	// beego.ErrorHandler("404", pageNotFound)
+	beego.ErrorHandler("404", pageNotFound)
 	ns := beego.NewNamespace("/ecards/v1",
-		// beego.NSNamespace("/ecards",
-		// 	beego.NSInclude(
-		// 		&ctrl.EcardsController{},
-		// 	),
-		// ),
-		beego.NSRouter("/ecards",
-			&ctrl.EcardsController{},
-			"post:Post"),
+		beego.NSNamespace("/ecards",
+			beego.NSInclude(
+				&ctrl.EcardsController{},
+			),
+		),
+		// beego.NSRouter("/ecards",
+		// 	&ctrl.EcardsController{},
+		// 	"post:Post"),
 	)
 
 	beego.AddNamespace(ns)

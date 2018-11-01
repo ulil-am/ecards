@@ -1,7 +1,7 @@
 package structs
 
 type (
-	// ReqData All Request
+	// ReqData Base All Request
 	ReqData struct {
 		ReqBody interface{} `json:"rqBody"`
 	}
@@ -12,6 +12,7 @@ type (
 		Error        []FilterErrorCode `json:"error"`
 	}
 
+	// FilterErrorCode For error code
 	FilterErrorCode struct {
 		Code    string `json:"errorCode"`
 		Message string `json:"errorDesc"`

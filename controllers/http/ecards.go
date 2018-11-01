@@ -12,10 +12,12 @@ import (
 	structAPI "ecards/structs/api/http"
 )
 
+// EcardsController controller operations for ecards
 type EcardsController struct {
 	beego.Controller
 }
 
+// URLMapping ...
 func (c *EcardsController) URLMapping() {
 	c.Mapping("Post", c.Post)
 }
@@ -23,13 +25,13 @@ func (c *EcardsController) URLMapping() {
 // Post ...
 // @Title Create
 // @Description Insert new cards
-// @Param	body		body 	models.Ecards	true		"body for Products content"
+// @Param	body				body 	structAPI.ReqCreateECards	true	"Request Body of Create Cards"
 // @Success 201 {object} models.Ecards
 // @Failure 403 body is empty
 // @router / [post]
 func (c *EcardsController) Post() {
 	errCode := make([]structs.TypeError, 0)
-
+	// beego.Debug(c.Ctx.Input.RequestBody)
 	var (
 		reqInterface structAPI.CreateECardsInteface
 		req          structAPI.ReqCreateECards
@@ -42,13 +44,17 @@ func (c *EcardsController) Post() {
 	}
 
 	err := json.Unmarshal(rqBodyByte, &reqInterface)
+	beego.Debug(reqInterface)
+
 	if err != nil {
 		structs.ErrorCode.UnexpectedError.String(&errCode)
 		SendOutput(c.Ctx, c.Data["json"], errCode)
 		return
 	}
-
+	beego.Debug(req)
 	reqInterface.ValidateRequest(&req, &errCode)
+	beego.Debug(req)
+
 	if len(errCode) > 0 {
 		SendOutput(c.Ctx, c.Data["json"], errCode)
 		return

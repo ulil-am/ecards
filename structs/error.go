@@ -7,6 +7,7 @@ import (
 	c "ecards/helper/constant"
 )
 
+// Code for error code
 type Code int
 
 var strs = make(map[reflect.Type]map[int]map[string]string)
@@ -104,6 +105,7 @@ func GetCodeError(code []string, errCode *[]TypeError) {
 	}
 }
 
+// GetString Get string for error code format
 func (e Code) GetString() (string, string, string) {
 	str := getStr(e)
 	return c.PREFIXERRCODE + str["code"], str["case"], str["msg"]

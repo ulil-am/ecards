@@ -7,6 +7,7 @@ import (
 	"github.com/globalsign/mgo"
 )
 
+// Ecards ...
 type Ecards struct{}
 
 func init() {
@@ -14,6 +15,7 @@ func init() {
 	d.Index()
 }
 
+// GetColl ...
 func (d *Ecards) GetColl() (sess *mgo.Session, coll *mgo.Collection, err error) {
 	sess, err = db.Connect()
 	if err != nil {
@@ -26,19 +28,37 @@ func (d *Ecards) GetColl() (sess *mgo.Session, coll *mgo.Collection, err error) 
 	return
 }
 
+// Index ...
 func (d *Ecards) Index() (err error) {
-	sess, coll, err := d.GetColl()
-	return
-}
-
-func (d *Ecards) InsertECards(v interface{}) (err error) {
 	sess, coll, err := d.GetColl()
 	defer sess.Close()
 	if err != nil {
 		return
 	}
 
-	err = coll.Insert(v)
+	index := mgo.Index{
+		Key:        []string{"card_number"},
+		Unique:     true,
+		DropDups:   false,
+		Background: false,
+		Sparse:     false,
+	}
 
+	err = coll.EnsureIndex(index)
+	return
+}
+
+// InsertECards ...
+func (d *Ecards) InsertECards(v interface{}) (err error) {
+	beego.Debug("Models db ===> ", v)
+	sess, coll, err := d.GetColl()
+	defer sess.Close()
+	beego.Debug(err)
+	if err != nil {
+		return
+	}
+
+	err = coll.Insert(v)
+	beego.Debug(err)
 	return
 }
