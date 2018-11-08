@@ -51,7 +51,7 @@ func (d *Ecards) Index() (err error) {
 // InsertECards ...
 func (d *Ecards) InsertECards(v interface{}) (err error) {
 	beego.Debug("Models db ===> ", v)
-	sess, coll, err := d.GetColl()
+	sess, coll, err := db.GetColl("ecards")
 	defer sess.Close()
 	beego.Debug(err)
 	if err != nil {

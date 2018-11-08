@@ -2,12 +2,18 @@ package helper
 
 import (
 	"ecards/structs"
+	structRPC "ecards/structs/api/grpc"
+	"encoding/json"
+	"strconv"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/cache"
 	"github.com/astaxie/beego/context"
 
 	js "github.com/json-iterator/go"
+
+	"ecards/helper/timetn"
 )
 
 var JS js.API
@@ -43,5 +49,29 @@ func GetRqBody(ctx *context.Context,
 	}
 
 	return bodyByte
+
+}
+
+// SetHeaderRPC ...
+func SetHeaderRPC(befMSStr string, reqID string,
+	errorHeader structs.TypeGRPCError) []byte {
+	nowMs := timetn.Now().UnixNano() / int64(time.Millisecond)
+
+	befMs, err := strconv.ParseInt(befMSStr, 10, 64)
+	CheckErr("", err)
+	afterMs := nowMs - befMs
+
+	header := structRPC.TypeHeaderRPC{
+		ReqID:       reqID,
+		Date:        timetn.Now(),
+		ContentType: "application/grpc",
+		RoundTrip:   strconv.FormatInt(afterMs, 10),
+		Error:       errorHeader,
+	}
+
+	jsonByte, err := json.Marshal(header)
+	CheckErr("", err)
+
+	return jsonByte
 
 }

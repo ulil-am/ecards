@@ -2,9 +2,9 @@ package main
 
 import (
 	"ecards/helper/constant"
+	"ecards/helper/timetn"
+	"ecards/routers/grpc"
 	_ "ecards/routers/http"
-	"medium/helper/timetn"
-	"medium/routers/grpc"
 	"net/http"
 	"os"
 	"strconv"
